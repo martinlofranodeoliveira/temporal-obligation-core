@@ -1,0 +1,126 @@
+{
+  "request_ack_success": {
+    "formula": {
+      "kind": "always",
+      "a": 0,
+      "b": 1,
+      "child": {
+        "kind": "or",
+        "children": [
+          {
+            "kind": "not",
+            "child": { "kind": "atom", "name": "request" }
+          },
+          {
+            "kind": "eventually",
+            "a": 1,
+            "b": 2,
+            "child": { "kind": "atom", "name": "ack" }
+          }
+        ]
+      }
+    },
+    "trace": {
+      "atoms": ["request", "ack"],
+      "samples": [
+        { "request": true, "ack": false },
+        { "request": false, "ack": false },
+        { "request": false, "ack": true },
+        { "request": false, "ack": false }
+      ]
+    },
+    "startTicks": [0],
+    "expected": { "0": 1 }
+  },
+  "request_ack_violation": {
+    "formula": {
+      "kind": "always",
+      "a": 0,
+      "b": 0,
+      "child": {
+        "kind": "or",
+        "children": [
+          {
+            "kind": "not",
+            "child": { "kind": "atom", "name": "request" }
+          },
+          {
+            "kind": "eventually",
+            "a": 1,
+            "b": 2,
+            "child": { "kind": "atom", "name": "ack" }
+          }
+        ]
+      }
+    },
+    "trace": {
+      "atoms": ["request", "ack"],
+      "samples": [
+        { "request": true, "ack": false },
+        { "request": false, "ack": false },
+        { "request": false, "ack": false },
+        { "request": false, "ack": false }
+      ]
+    },
+    "startTicks": [0],
+    "expected": { "0": 2 }
+  },
+  "until_success": {
+    "formula": {
+      "kind": "until",
+      "a": 1,
+      "b": 3,
+      "left": { "kind": "atom", "name": "grant" },
+      "right": { "kind": "atom", "name": "release" }
+    },
+    "trace": {
+      "atoms": ["grant", "release"],
+      "samples": [
+        { "grant": true, "release": false },
+        { "grant": true, "release": false },
+        { "grant": true, "release": true },
+        { "grant": false, "release": false }
+      ]
+    },
+    "startTicks": [0],
+    "expected": { "0": 1 }
+  },
+  "until_left_failure": {
+    "formula": {
+      "kind": "until",
+      "a": 2,
+      "b": 3,
+      "left": { "kind": "atom", "name": "grant" },
+      "right": { "kind": "atom", "name": "release" }
+    },
+    "trace": {
+      "atoms": ["grant", "release"],
+      "samples": [
+        { "grant": true, "release": false },
+        { "grant": false, "release": false },
+        { "grant": true, "release": true },
+        { "grant": true, "release": false }
+      ]
+    },
+    "startTicks": [0],
+    "expected": { "0": 2 }
+  },
+  "unobserved_future": {
+    "formula": {
+      "kind": "eventually",
+      "a": 2,
+      "b": 5,
+      "child": { "kind": "atom", "name": "heartbeat" }
+    },
+    "trace": {
+      "atoms": ["heartbeat"],
+      "samples": [
+        { "heartbeat": false },
+        { "heartbeat": false },
+        { "heartbeat": false }
+      ]
+    },
+    "startTicks": [0],
+    "expected": { "0": 3 }
+  }
+}

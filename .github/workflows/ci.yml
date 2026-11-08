@@ -1,0 +1,29 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Build local container image
+        run: docker build --tag temporal-obligation-core-ci .
+        timeout-minutes: 5
+      - name: Lint all PHP sources
+        run: docker run --rm --network none --read-only --tmpfs /tmp:rw,nosuid,nodev,size=32m temporal-obligation-core-ci sh -c 'find src bin tests -name "*.php" -print -exec php -l {} \;'
+        timeout-minutes: 2
+      - name: Regression test suite
+        run: docker run --rm --network none --read-only --tmpfs /tmp:rw,nosuid,nodev,size=32m temporal-obligation-core-ci php tests/run.php
+        timeout-minutes: 2
+      - name: Offline demo assertion
+        run: docker run --rm --network none --read-only --tmpfs /tmp:rw,nosuid,nodev,size=32m temporal-obligation-core-ci php bin/temporal-obligation.php demo --assert
+        timeout-minutes: 1
+      - name: Offline demo JSON
+        run: docker run --rm --network none --read-only --tmpfs /tmp:rw,nosuid,nodev,size=32m temporal-obligation-core-ci php bin/temporal-obligation.php demo --json
+        timeout-minutes: 1

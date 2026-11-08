@@ -1,0 +1,33 @@
+{
+    "name": "martinlofranodeoliveira/temporal-obligation-core",
+    "description": "A typed offline temporal-contract SDK for dense Boolean event traces with Strong Kleene three-valued semantics.",
+    "version": "0.1.0",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://lofranotecnologia.com.br",
+    "authors": [
+        {
+            "name": "Lofrano Tecnologia",
+            "homepage": "https://lofranotecnologia.com.br"
+        }
+    ],
+    "require": {
+        "php": ">=8.4.0",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lofrano\\TemporalObligation\\": "src/"
+        },
+        "files": [
+            "src/bootstrap.php"
+        ]
+    },
+    "scripts": {
+        "test": "php tests/run.php",
+        "demo": "php bin/temporal-obligation.php demo --assert"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

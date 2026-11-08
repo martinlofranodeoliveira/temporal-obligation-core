@@ -1,0 +1,10 @@
+vendor/
+composer.lock
+*.phar
+.phpunit.result.cache
+.DS_Store
+.idea/
+.vscode/
+*.swp
+__pycache__/
+*.pyc
